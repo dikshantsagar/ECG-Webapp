@@ -1,0 +1,65 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECG</title>
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link href="{% static "css/style.css" %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+    <link rel="stylesheet" href="{% static "css/uikit.min.css"  %}"/>
+    <script src="{% static "js/uikit.min.js" %}"></script>
+    <script src="{% static "js/uikit-icons.min.js" %}"></script>
+  
+</head>
+<body  class="uk-background-primary">
+
+    <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
+        <div class="uk-navbar-left">
+            <ul class="uk-navbar-nav">
+                <li class="uk-active"><a href=""><h3>ECG</h3></a></li>
+                
+            </ul>
+        </div>
+    </nav>
+
+    <div class="uk-container">
+        {% csrf_token %}
+        <div class="uk-card uk-card-default uk-card-body uk-width-1-1@m " uk-height-viewport="offset-bottom: 20">
+            <h3 class="uk-card-title">Upload ElectroCardioGram Below</h3>
+            <div class="uk-container uk-position-center">
+                <div class="js-upload uk-placeholder uk-text-center ">
+                    <span uk-icon="icon: cloud-upload"></span>
+                    <span class="uk-text-middle">Drop CSV here or</span>
+                    <form uk-form-custom method="post" id="form" enctype="multipart/form-data">
+                        
+                        {{ form }}
+                        <input id="file" type="file" multiple>
+                        <span class="uk-link" >Select One</span>
+                    </form>
+                </div>
+                <progress id="js-progressbar" class="uk-progress" value="0" max="100" hidden></progress>
+                <form action="/predict">
+                    <input type="submit" class="uk-button uk-button-primary uk-button-large uk-align-center" value="Predict">
+                </form>
+            </div>
+
+            
+            
+            
+            
+        </div>
+    </div>
+    
+    
+    <!--  Scripts-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="{% static "js/init.js" %}"></script>
+    <script src="https://kit.fontawesome.com/e0a08b5c11.js" crossorigin="anonymous"></script>
+</body>
+</html>

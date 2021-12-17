@@ -1,0 +1,7 @@
+shap
+tensorflow==2.5.0
+matplotlib
+numpy
+Django
+
+
