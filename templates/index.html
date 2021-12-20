@@ -10,19 +10,19 @@
     <!-- CSS  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <link href="{% static "css/style.css" %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 
-    <link rel="stylesheet" href="{% static "css/uikit.min.css"  %}"/>
-    <script src="{% static "js/uikit.min.js" %}"></script>
-    <script src="{% static "js/uikit-icons.min.js" %}"></script>
+    <link rel="stylesheet" href="static/css/uikit.min.css"/>
+    <script src="static/js/uikit.min.js"></script>
+    <script src="static/js/uikit-icons.min.js"></script>
   
 </head>
-<body  class="uk-background-primary">
+<body  class="uk-background-muted">
 
-    <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
-        <div class="uk-navbar-left">
+    <nav class="uk-navbar-container " uk-navbar >
+        <div class="uk-navbar-center">
             <ul class="uk-navbar-nav">
-                <li class="uk-active"><a href=""><h3>ECG</h3></a></li>
+                <li class="uk-active"><a href="/"><h2>ElectroCardioGram Analyzer WebApp </h2></a></li>
                 
             </ul>
         </div>
@@ -31,10 +31,11 @@
     <div class="uk-container">
         {% csrf_token %}
         <div class="uk-card uk-card-default uk-card-body uk-width-1-1@m " uk-height-viewport="offset-bottom: 20">
-            <h3 class="uk-card-title">Upload ElectroCardioGram Below</h3>
-            <div class="uk-container uk-position-center">
-                <div class="js-upload uk-placeholder uk-text-center ">
-                    <span uk-icon="icon: cloud-upload"></span>
+            
+            <h3 class="uk-card-title" id="uploadtitle">Upload ElectroCardioGram Below </h3>
+            <div class="uk-container uk-position-center" id="uploadform">
+                <div class="js-upload uk-placeholder uk-text-center">
+                    <i class="fas fa-cloud-upload-alt fa-lg"></i>
                     <span class="uk-text-middle">Drop CSV here or</span>
                     <form uk-form-custom method="post" id="form" enctype="multipart/form-data">
                         
@@ -43,16 +44,56 @@
                         <span class="uk-link" >Select One</span>
                     </form>
                 </div>
+                <!-- <div class="">
+                    <span uk-icon="icon:file-text; ratio:1" ></span><span> Xtest.csv <a href="" uk-close></a></span>
+                    
+                </div> -->
+                
                 <progress id="js-progressbar" class="uk-progress" value="0" max="100" hidden></progress>
-                <form action="/predict">
+                <form action="/predict" id="predictform">
                     <input type="submit" class="uk-button uk-button-primary uk-button-large uk-align-center" value="Predict">
                 </form>
+                
             </div>
+            <span  class="uk-position-center" uk-spinner="ratio: 5"  id="spinner" hidden></span>
 
             
             
             
             
+        </div>
+    </div>
+
+    <div id="instructions" class="uk-flex-top" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical mainbox">
+            <h4> Instructions</h4>
+    
+            <button class="uk-modal-close-default" type="button" uk-close></button>
+    
+            <div class="uk-position-relative " uk-slideshow>
+
+                <ul class="uk-slideshow-items">
+                    <li>
+                        <img src="static/images/photo.jpg" alt="" uk-cover>
+                    </li>
+                    <li>
+                        <img src="static/images/photo.jpg" alt="" uk-cover>
+                    </li>
+                    <li>
+                        <img src="static/images/photo.jpg" alt="" uk-cover>
+                    </li>
+                </ul>
+            
+                <div class="uk-position-bottom-center uk-position-small">
+                    <ul class="uk-dotnav">
+                        <li uk-slideshow-item="0"><a href="#">Item 1</a></li>
+                        <li uk-slideshow-item="1"><a href="#">Item 2</a></li>
+                        <li uk-slideshow-item="2"><a href="#">Item 3</a></li>
+                    </ul>
+                </div>
+            
+            </div>
+    
         </div>
     </div>
     

@@ -9,15 +9,24 @@
   
       
   
-    
+    UIkit.modal("#instructions").show();
 
-        var bar = document.getElementById('js-progressbar');
+    var bar = document.getElementById('js-progressbar');
+
+    $('#predictform').submit(function(){
+
+        $('#uploadform').attr("hidden",true);
+        $('#uploadtitle').attr("hidden",true);
+        $('#spinner').attr("hidden",false);
+
+    });
 
     UIkit.upload('#file', {
 
         url: '/csvupload',
         multiple: false,
         name: 'file',
+        allow: '*.csv',
         
 
         beforeSend: function () {

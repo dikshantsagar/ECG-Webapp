@@ -15,22 +15,59 @@
     <script src="{% static "js/uikit.min.js" %}"></script>
     <script src="{% static "js/uikit-icons.min.js" %}"></script>
 </head>
-<body class="uk-background-primary">
+<body class="uk-background-muted">
 
     <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
-        <div class="uk-navbar-left">
+        
+        <div class="uk-navbar-center">
             <ul class="uk-navbar-nav">
-                <li class="uk-active"><a href=""><h3>ECG</h3></a></li>
+                <li class="uk-active"><a href="/"><h2>ElectroCardioGram Analyzer WebApp </h2></a></li>
                 
             </ul>
         </div>
     </nav>
 
+    <a href="/" class="uk-position-left"><span uk-icon="icon: arrow-left; ratio: 2"></span></a>
 
     <div class="uk-container">
+
+        <div class="uk-card uk-card-secondary uk-card-body uk-width-1-1@m  uk-heading-small ">
+            <span class ="uk-position-center" > Predictions </span>
+        </div>
         
-        <div class="uk-card uk-card-default uk-card-body uk-width-1-1@m " uk-height-viewport="offset-bottom: 20">
-            <h3 class="uk-card-title">Results</h3>
+        <div class="uk-card uk-card-default uk-card-body uk-width-1-1@m uk-overflow-auto"  uk-height-viewport="offset-bottom: 20">
+            
+            <ul uk-tab>
+                {% for cl in class %}
+                <li><a href="#">{{ cl }}</a></li>
+                {% endfor %}
+            </ul>
+
+            <ul class="uk-switcher">
+
+                {% for paths in iterator %}
+
+                <li>
+                    <div class="" uk-lightbox="animation: slide" id="{{ class_ind }}">
+                
+                        {% for path, lead in paths %}
+                        <div class="uk-card uk-card-hover uk-card-default uk-card-body uk-width-1-1@m " >
+                            <a class="uk-inline" href={{ path }} data-caption="Lead {{ lead }}">
+                                <img src={{ path }} alt="">
+                            </a>
+                        </div>
+                        {% endfor %}
+                        
+                    </div>
+
+                </li>
+                {% endfor %}
+            </ul>
+
+
+            
+
+            
             
 
             

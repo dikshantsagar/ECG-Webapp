@@ -12,6 +12,7 @@ import shap
 import matplotlib.pyplot as plt
 from matplotlib.collections import LineCollection
 from matplotlib.colors import ListedColormap, BoundaryNorm
+plt.style.use('ggplot')
 
 # input format  : (samples, 12, 1000, 1)
 # output format : (samples, 5)
@@ -51,7 +52,7 @@ def get_shap(data):
 
 
 
-def plot_shap(x, y, shap_val, lead_idx):
+def plot_shap(x, y, shap_val, lead_idx, ind):
   mn, mx = np.min(y), np.max(y)
   
   fig, axs = plt.subplots()
@@ -72,13 +73,18 @@ def plot_shap(x, y, shap_val, lead_idx):
   lc.set_array(shap_val)
   lc.set_linewidth(0.8)
   line = axs.add_collection(lc)
-  fig.colorbar(line, ax=axs)
+  #fig.colorbar(line, ax=axs)
   plt.xlim(-0.2, 10.2)
   plt.ylim(mn - 0.1, mx + 0.1)
+  plt.xticks(np.arange(0, 10.5, step=0.5)) 
 
   fig.set_size_inches(10, 2)
   plt.title("lead " + leads[lead_idx])
   plt.xlabel("Time (sec)")
   plt.ylabel("Voltage (mV)")
-  plt.savefig('static/data/plots/'+leads[lead_idx]+ '.png', bbox_inches='tight', dpi=600)
+  path = 'static/data/plots/'+str(ind)+'/'+leads[lead_idx]+ '.png'
+  plt.savefig(path, bbox_inches='tight', dpi=600)
   plt.close(fig)
+
+
+  return path
