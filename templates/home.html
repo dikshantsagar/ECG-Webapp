@@ -1,0 +1,103 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECG</title>
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+    <link href="static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="static/css/site.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link rel="icon" type="image/x-icon" href="static/images/icon.png">
+
+    <!-- <link rel="stylesheet" href="static/css/uikit.min.css"/> -->
+    <script src="static/js/uikit.min.js"></script>
+    <script src="static/js/uikit-icons.min.js"></script>
+  
+</head>
+<body  >
+
+    
+    
+
+    <div class="uk-container ">
+        {% csrf_token %}
+        
+        <div  class="uk-card uk-card-default uk-card-body uk-width-1-2@m round uk-padding uk-margin-large-top uk-align-center" uk-height-viewport="offset-bottom: 20" >
+            <div class="uk-width-1-1@m">
+                <div class="uk-card uk-card-secondary uk-card-body uk-width-1-1@m   uk-margin round">
+                    <h3 class ="uk-position-center"  style="color: #3FADA8; font-size: 1.8vw;"><i class="fal fa-heart-rate"></i>  ElectroCardioGram (ECG) Analyzer <i class="fal fa-heart-rate"></i> </h3>
+                </div>
+                <div class="uk-padding uk-padding-remove-top ">
+                    <img src="/static/images/iiitd.png" width="100px" height="auto">
+                    <img src="/static/images/sbilogo.png" width="65px" height="auto" class="uk-align-right">
+
+                </div>
+                
+                <div class="uk-text-center uk-position-center  uk-margin-top">
+                    <h1 class="uk-text-center ">Sign In</h1>
+                    {% if otp %}
+                    <form action="/verifyotp" id="otpform" method="POST" autocomplete="off">
+                        {% csrf_token %}
+                        <input class="uk-input  uk-text-center uk-margin round"  placeholder="Enter OTP" required name="otpentered">
+                        <input type="text" value="{{otp}}" name="otporig" hidden>
+                        
+                        <input type="submit" class=" uk-button uk-button-primary uk-text-center uk-margin-top round" value="Verify OTP">
+                    </form>
+                    
+                    {% else %}
+                    <form id="emailform" action="/" method="POST" class="uk-width-1-1">
+                        {% csrf_token %}
+                        <input class="uk-input  uk-text-center uk-margin round" type="email" placeholder="Enter Your Email" required id="email" name="email">
+                        
+                        <input type="submit" class=" uk-button uk-button-primary uk-text-center uk-margin-top round" value="Send OTP" >
+                    </form>
+                    {% endif %}
+                    <div uk-spinner id="formspinner" hidden></div>
+                    
+                </div>
+                
+                <div class="uk-position-bottom uk-margin-large-left uk-margin-large-right uk-margin-bottom">
+                    
+                    <p style="color: grey; font-size: small;"><b>Caution : </b>Do not enter any personal or patient identifying information.
+                        The data collected might be used for research purposes.</p>
+                </div>
+                
+
+            </div>
+            
+            
+        </div>
+    </div>
+
+    
+   
+
+    <div class="uk-position-bottom-center">
+        <p style="font-size: small;">Webapp by <b><a class="uk-link-text" href="https://www.linkedin.com/in/dikshant-sagar-1964b7110/">Dikshant Sagar</a></b></p>
+    </div>
+    
+    <script>
+    
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+    </script>
+
+    
+    <!--  Scripts-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="{% static "js/init.js" %}"></script>
+    <script src="https://kit.fontawesome.com/e0a08b5c11.js" crossorigin="anonymous"></script>
+</body>
+</html>
+
+
+
+
+

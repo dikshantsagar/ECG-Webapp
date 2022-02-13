@@ -1,9 +1,53 @@
 body{
     
     min-height: 100vh;
+    background: url('../images/back.png');
+    background-size: cover;
 }
 
 
-#navbar{
-    background-color: cyan;
+.round{
+    border-radius: 7px !important;
+}
+
+.samplehidden{
+    visibility: hidden;
+}
+.samplevisible{
+    visibility: visible;
+}
+.uk-height-max-large {
+    max-height: 520px !important;
+}
+
+@media only screen and (max-width: 900px) {
+
+    .samplehidden{
+        visibility: visible;
+    }
+    .samplevisible{
+        visibility: hidden;
+    }
+
+    
+    
+}
+
+@media only screen and (max-width: 600px) {
+
+    h3{
+        font-size: 3.8vw !important;
+    }
+    
+    
+}
+
+@media only screen and (max-width: 500px) {
+
+    .infotext{
+        font-size: 3vw !important;
+    }
+
+    
+    
 }

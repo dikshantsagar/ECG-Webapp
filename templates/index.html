@@ -9,55 +9,114 @@
     <title>ECG</title>
     <!-- CSS  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
     <link href="static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="static/css/site.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link rel="icon" type="image/x-icon" href="static/images/icon.png">
 
-    <link rel="stylesheet" href="static/css/uikit.min.css"/>
+    <!-- <link rel="stylesheet" href="static/css/uikit.min.css"/> -->
     <script src="static/js/uikit.min.js"></script>
     <script src="static/js/uikit-icons.min.js"></script>
   
 </head>
-<body  class="uk-background-muted">
+<body >
 
-    <nav class="uk-navbar-container " uk-navbar >
-        <div class="uk-navbar-center">
-            <ul class="uk-navbar-nav">
-                <li class="uk-active"><a href="/"><h2>ElectroCardioGram Analyzer WebApp </h2></a></li>
-                
-            </ul>
-        </div>
-    </nav>
+    
+    
 
     <div class="uk-container">
         {% csrf_token %}
-        <div class="uk-card uk-card-default uk-card-body uk-width-1-1@m " uk-height-viewport="offset-bottom: 20">
-            
-            <h3 class="uk-card-title" id="uploadtitle">Upload ElectroCardioGram Below </h3>
-            <div class="uk-container uk-position-center" id="uploadform">
-                <div class="js-upload uk-placeholder uk-text-center">
-                    <i class="fas fa-cloud-upload-alt fa-lg"></i>
-                    <span class="uk-text-middle">Drop CSV here or</span>
-                    <form uk-form-custom method="post" id="form" enctype="multipart/form-data">
-                        
-                        {{ form }}
-                        <input id="file" type="file" multiple>
-                        <span class="uk-link" >Select One</span>
-                    </form>
+        
+        <div uk-grid class="uk-card uk-card-default uk-card-body uk-width-1-1@m round uk-padding " uk-height-viewport="offset-bottom: 17" style="margin-left: 0; margin-top: 7vh; padding-left: 0; margin-bottom: 10vh;">
+            <div class="uk-width-1-2@m">
+                <div class="uk-card uk-card-secondary uk-card-body uk-width-1-1@m   uk-margin round ">
+                    <h3 class ="uk-position-center"  style="color: #3FADA8;  font-size: 1.8vw;"> <i class="fal fa-heart-rate"></i> ElectroCardioGram (ECG) Analyzer <i class="fal fa-heart-rate"></i></h3>
                 </div>
-                <!-- <div class="">
-                    <span uk-icon="icon:file-text; ratio:1" ></span><span> Xtest.csv <a href="" uk-close></a></span>
+                <div class="uk-card uk-card-default uk-card-body uk-width-1-1@m uk-margin round info uk-padding uk-box-shadow-large uk-height-max-large" >
+                    <img src="/static/images/iiitd.png" width="100px" height="auto">
+                    <img src="/static/images/sbilogo.png" width="65px" height="auto" class="uk-align-right">
+
+                <div class="uk-align-center uk-text-small infotext">
+                    An interpretable AI model that highlights the abnormal segments of the ECG and predicts the following heart diseases: <br>
+                    <ul>
+                        <li>Conduction Disorder</li>
+                        <li>Cardiac Hypertrophy</li>
+                        <li>Myocardial Infarction</li>
+                        <li>ST/T Change</li>
+                    </ul>
+                    Principal investigators: <a href="https://www.iiitd.ac.in/anubha">Dr. Anubha Gupta</a> and <a href="https://www.linkedin.com/in/manukumarshetty">Dr. Manu Kumar Shetty (MBBS, MD)</a>
                     
-                </div> -->
-                
-                <progress id="js-progressbar" class="uk-progress" value="0" max="100" hidden></progress>
-                <form action="/predict" id="predictform">
-                    <input type="submit" class="uk-button uk-button-primary uk-button-large uk-align-center" value="Predict">
-                </form>
-                
+
+                    <p style="font-size: smaller;">
+                        <b>Cite: </b>Atul Anand, Tushar Kadian, Manu Kumar Shetty, and Anubha Gupta, "Explainable AI Decision Model for ECG Data of Cardiac Disorders," Under Review, Biomedical Signal Processing and Control, Elsevier, January 2022.<br>
+                        <br><b>Please note:</b> AI model's results need to be confirmed by a cardiologist, the report cannot be used for any type of interventions without a doctor's consent.</p>
+
+                </div>
+
+                </div>
+
             </div>
-            <span  class="uk-position-center" uk-spinner="ratio: 5"  id="spinner" hidden></span>
+            <div class="uk-width-1-2@m uk-text-center uk-padding uk-padding-remove-right " style="padding-top: 15%;">
+                    <!-- <h3 class="uk-card-title" id="uploadtitle">Upload ElectroCardioGram Below </h3> -->
+                    <div class="uk-container uk-align-center" id="uploadform">
+                        <button class="uk-button uk-button-large uk-button-default uk-align-center uk-margin-bottom round uk-width-1-1" type="button" uk-toggle="target: #samples-modal" style="font-size: small;"><span uk-icon="download" ></span> Download Sample Files</button>
+                        <div class="js-upload uk-placeholder uk-text-center round" style="border: 1px dashed grey">
+                            <i class="fas fa-cloud-upload-alt fa-lg"></i>
+                            <span class="uk-text-middle">Drop CSV here or</span>
+                            <form uk-form-custom method="post" id="form" enctype="multipart/form-data">
+                                
+                                {{ form }}
+                                <input id="file" type="file" multiple>
+                                <span class="uk-link" >Select One</span>
+                            </form>
+                        </div>
+                        <div id="filenamediv" hidden>
+                            <span uk-icon="icon:file-text; ratio:1" ></span><span id="filename"></span><a href="/app" uk-close></a>
+                            
+                        </div>
+                        
+                        <progress id="js-progressbar" class="uk-progress" value="0" max="100" hidden></progress>
+                        <form action="/predict" id="predictform" method="POST">
+                            {% csrf_token %}
+                            <input class="uk-input uk-text-center  uk-margin-top" type="number" placeholder="Enter Sampling Frequency * (Hz)" id="rate" name="rate" required>
+                            <p style="color: grey; font-size: small;"><b> * </b>Sampling Frequency = [ Total Number of Samples / Time (In Seconds) ].</p>
+                               
+                            
+                            <input type="submit" class="uk-button uk-button-primary uk-button-large uk-align-center round" value="Predict" >
+                                
+                            </div>
+                        </form>
+                        
+                        <progress class="uk-progress" value="5" max="100" id="predictprogress" hidden></progress>
+                    </div>
+                    
+                    
+                    
+                    
+
+            </div>
+            
+            
 
             
+                
+                <div class="round uk-margin-auto-vertical" id="samples-modal" uk-modal>
+                    <div class="uk-modal-dialog uk-modal-body round">
+                        <button class="uk-modal-close-default" type="button" uk-close></button>
+                        <h2 class="uk-margin-bottom">Sample Files ( 100Hz) </h2>
+                        
+                        <ul class="uk-list uk-list-divider">
+                            {% for file, path in samples %}
+                               <li><a class="uk-text-center uk-margin-right uk-margin-large-bottom" href="{{ path }}"><span uk-icon="icon:file-text;ratio:1.5"></span><span>{{ file }} </span></a></li>
+                            {% endfor %}
+                        </ul>
+                        <hr>
+                        
+                    </div>
+                    
+                </div>
+           
             
             
             
@@ -65,30 +124,49 @@
     </div>
 
     <div id="instructions" class="uk-flex-top" uk-modal>
-        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical mainbox">
+        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical round">
             <h4> Instructions</h4>
+            
     
             <button class="uk-modal-close-default" type="button" uk-close></button>
     
-            <div class="uk-position-relative " uk-slideshow>
+            <div class="uk-position-relative uk-height-medium" uk-slideshow="autoplay: true;pause-on-hover: true;autoplay-interval: 4000;">
 
-                <ul class="uk-slideshow-items">
+                <ul class="uk-slideshow-items infotext" style="height: 200px;">
                     <li>
-                        <img src="static/images/photo.jpg" alt="" uk-cover>
+                        <p>Upload ECG Data file with the following specifications:</p>
+                        <ul class="uk-list uk-list-disc uk-list-primary">
+                            <li>CSV file (Comma Separated) with only numerical values.</li>
+                            <li>Data arranged as columns in the lead order: 
+                                <p>[ I , II , III , AVL , AVR , AVF , V1 , V2 , V3 , V4 , V5 , V6 ]</p>
+                            </li>
+                            <li>Atleast 10 seconds of ECG data.</li>
+                        </ul>
+            
                     </li>
                     <li>
-                        <img src="static/images/photo.jpg" alt="" uk-cover>
+                        Select and Upload Data File <br>
+                        <img src="static/images/intro1.gif" alt="">
                     </li>
                     <li>
-                        <img src="static/images/photo.jpg" alt="" uk-cover>
+                        Enter Sampling Rate and Click Predict <br>
+                        <p>
+                            <img src="static/images/intro2.gif" alt="" >
+                        </p>
+                    </li>
+                    <li>
+                        Wait 30-60 Seconds For The Results.<br>
+                        <progress class="uk-progress uk-margin-large" value="50" max="100" ></progress>
+
                     </li>
                 </ul>
             
-                <div class="uk-position-bottom-center uk-position-small">
+                <div class="uk-position-bottom-center uk-margin-top">
                     <ul class="uk-dotnav">
                         <li uk-slideshow-item="0"><a href="#">Item 1</a></li>
                         <li uk-slideshow-item="1"><a href="#">Item 2</a></li>
                         <li uk-slideshow-item="2"><a href="#">Item 3</a></li>
+                        <li uk-slideshow-item="3"><a href="#">Item 4</a></li>
                     </ul>
                 </div>
             
@@ -96,9 +174,20 @@
     
         </div>
     </div>
-    
+    <div class="uk-position-bottom-center samplevisible">
+        <p style="font-size: small;">Webapp by <b><a class="uk-link-text" href="https://www.linkedin.com/in/dikshant-sagar-1964b7110/">Dikshant Sagar</a></b></p>
+    </div>
+
+    {% if error %}
+    <script>
+        alert("File does not contain 10 second data according to the given sampling rate. Check you file or check your sampling rate.");
+    </script>
+    {% endif%}
     
     <!--  Scripts-->
+    <script>
+        UIkit.modal("#instructions").show();
+    </script>
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="{% static "js/init.js" %}"></script>
     <script src="https://kit.fontawesome.com/e0a08b5c11.js" crossorigin="anonymous"></script>

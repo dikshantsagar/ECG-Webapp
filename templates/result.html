@@ -8,38 +8,78 @@
     <title>Results</title>
     <!-- CSS  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
     <link href="{% static "css/style.css" %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="static/css/site.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link rel="icon" type="image/x-icon" href="static/images/icon.png">
 
-    <link rel="stylesheet" href="{% static "css/uikit.min.css"  %}"/>
+    <!-- <link rel="stylesheet" href="{% static "css/uikit.min.css"  %}"/> -->
     <script src="{% static "js/uikit.min.js" %}"></script>
     <script src="{% static "js/uikit-icons.min.js" %}"></script>
 </head>
-<body class="uk-background-muted">
+<body class="uk-background-primary">
 
-    <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
-        
-        <div class="uk-navbar-center">
-            <ul class="uk-navbar-nav">
-                <li class="uk-active"><a href="/"><h2>ElectroCardioGram Analyzer WebApp </h2></a></li>
-                
-            </ul>
-        </div>
-    </nav>
 
-    <a href="/" class="uk-position-left"><span uk-icon="icon: arrow-left; ratio: 2"></span></a>
+    
 
     <div class="uk-container">
-
-        <div class="uk-card uk-card-secondary uk-card-body uk-width-1-1@m  uk-heading-small ">
-            <span class ="uk-position-center" > Predictions </span>
+        
+        <div class="uk-card uk-card-secondary uk-card-body uk-width-1-1@m  uk-heading-small round uk-margin-top">
+            <h3 class ="uk-position-center" style="color: #3FADA8;" ><i class="fal fa-heart-rate"></i> ElectroCardioGram (ECG) Analyzer <i class="fal fa-heart-rate"></i></h3>
         </div>
         
-        <div class="uk-card uk-card-default uk-card-body uk-width-1-1@m uk-overflow-auto"  uk-height-viewport="offset-bottom: 20">
+        <div class="uk-card uk-card-default uk-card-body uk-width-1-1@m uk-overflow-auto round uk-margin-large-bottom"  uk-height-viewport="offset-bottom: 20">
+            <a href="/app" class="uk-position-left uk-margin-top uk-margin-left " style="color: #222;"><span uk-icon="icon: arrow-left; ratio: 2"></span></a>
             
-            <ul uk-tab>
-                {% for cl in class %}
-                <li><a href="#">{{ cl }}</a></li>
+            <div class="uk-inline uk-position-right uk-margin-top uk-margin-large-right" >
+                <button type="button"  id="reviewform" style="background: none; border: none;"><span uk-icon="file-edit"></span></button>
+                <div uk-dropdown class="round" >
+                    <h4>Are we correct ? </h4>
+                    <div>
+                        <div class="fieldset">
+                            <label class="uk-margin-right"><input class="uk-radio" type="radio" name="radio" id="yes" checked> Yes</label>
+                            <label class="uk-margin"><input class="uk-radio" type="radio" name="radio"> No</label>
+                        </div>
+                        <br><label>What was your diagnosis and where do you think we went wrong ?</label>
+                        <textarea class="uk-textarea" id="textarea"></textarea>
+                        <button class="uk-button uk-button-primary uk-margin round" id="review">Submit</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="uk-inline uk-position-right uk-margin-top uk-margin-right">
+                <button type="button" class="uk-border-circle" style="background: none; border: none;"><span uk-icon="question"></span></button>
+                <div uk-dropdown class="round" style="height: 300px; width: 300px;">
+                    <img src="/static/images/grid.png" width="250px" height="auto">
+                </div>
+            </div>
+            
+            <h4 class="uk-text-center uk-margin-remove-top">DISEASE PREDICTIONS</h4>
+            <table class="uk-table uk-table-divider uk-table-small uk-align-center" style="width: 30vw; border: 1px solid lightgray; display: table;">
+                <thead>
+                    <th>Disease</th>
+                    <th>Probability</th>
+                </thead>
+                <tbody>
+                    {% for cl, pr in probs %}
+                    <tr>
+                        <td>{{ cl }} </td>
+                        <td>{{ pr }}%</td>
+                    </tr>
+                    
+                    {% endfor %}
+                </tbody>
+            </table>
+            <h4 class="uk-text-center uk-margin-large-top">INTERPRETABILITY</h4>
+            <p><span class="uk-badge" style="height: 20px; width: 20px; border-radius: 0px; background-color: red;"></span>
+                (Red) [ Segments of the ECG Data that most contribute to the predicted disease ]</p>
+                
+            
+            
+            <ul class="uk-tab" uk-switcher="animation: uk-animation-slide-top-small" >
+                {% for cl in classes %}
+                <li><a href="#" style="border-width: medium;">{{ cl }}</a></li>
                 {% endfor %}
             </ul>
 
@@ -51,9 +91,9 @@
                     <div class="" uk-lightbox="animation: slide" id="{{ class_ind }}">
                 
                         {% for path, lead in paths %}
-                        <div class="uk-card uk-card-hover uk-card-default uk-card-body uk-width-1-1@m " >
+                        <div class="uk-card uk-card-hover uk-card-default uk-card-body uk-width-1-1@m "  style="padding: 10px 10px;">
                             <a class="uk-inline" href={{ path }} data-caption="Lead {{ lead }}">
-                                <img src={{ path }} alt="">
+                                <img src={{ path }} alt="" style="cursor: zoom-in;">
                             </a>
                         </div>
                         {% endfor %}
@@ -76,6 +116,10 @@
             
         </div>
     </div>
+
+
+
+    
 
 
 

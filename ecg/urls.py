@@ -19,7 +19,11 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
+    path('app', views.app, name='app'),
+    path('', views.index, name='index'),
     path('csvupload', views.upload, name='csvupload'),
     path('predict', views.predict, name='predict'),
+    path('loginemail', views.loginemail, name="loginemail"),
+    path('verifyotp', views.verifyotp, name="verifyotp"),
+    path('review', views.review, name='review')
 ]

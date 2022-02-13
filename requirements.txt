@@ -1,7 +1,8 @@
-shap
+shap==0.39.0
 tensorflow==2.5.0
+tensorflow-gpu==2.5.0
 matplotlib
 numpy
 Django
-
+librosa
 

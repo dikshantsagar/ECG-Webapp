@@ -8,10 +8,16 @@ import glob
 from tensorflow.keras.models import load_model
 import tensorflow.keras.backend as K
 import shap
-
+import joblib
+import matplotlib
+matplotlib.use('agg')
 import matplotlib.pyplot as plt
 from matplotlib.collections import LineCollection
 from matplotlib.colors import ListedColormap, BoundaryNorm
+
+from numba import cuda 
+import gc
+
 plt.style.use('ggplot')
 
 # input format  : (samples, 12, 1000, 1)
@@ -22,12 +28,16 @@ def get_prediction(data):
     print('Trainable Parameters:', np.sum([K.count_params(w) for w in model.trainable_weights]))
 
   # output prediction
-    y_pred  = model.predict(data)
+    y_pred  = model.predict(data)[0]
+    
+    probs = y_pred.copy()
+    print(probs)
+
     y_pred[y_pred >= 0.5] = 1
     y_pred[y_pred < 0.5]  = 0
 
   # multi-labelled data: 1 means positive and 0 means negative for each index
-    return y_pred
+    return y_pred, probs
     
 
 # input format  : (samples, 12, 1000, 1)
@@ -42,7 +52,12 @@ def get_shap(data):
     x_train = x_train.transpose(0, 2, 1)                    # transpose matrix
     x_train = np.expand_dims(x_train, axis=-1)              # Add another channel
     explainer = shap.GradientExplainer(model, x_train)
+
+    #print('saving shap explainer')
+    
+
     shap_vals = explainer.shap_values(data)
+    
     
     
     # remove the extra dimension at the end
@@ -50,6 +65,17 @@ def get_shap(data):
 
     return shap_vals
 
+def top500(vals):
+  
+  arr = np.copy(vals)
+  #print(arr.shape)
+  arr = arr.flatten()
+  arr.sort()
+  
+  threshold = arr[-500]
+  vals[ vals < threshold] = -1. 
+  #print(np.count_nonzero(vals >= 0))
+  return vals
 
 
 def plot_shap(x, y, shap_val, lead_idx, ind):
@@ -74,17 +100,26 @@ def plot_shap(x, y, shap_val, lead_idx, ind):
   lc.set_linewidth(0.8)
   line = axs.add_collection(lc)
   #fig.colorbar(line, ax=axs)
+  limlow = mn if mn > -0.5 else  -0.6
+  limmax = mx if mx > 0.5 else 0.6
   plt.xlim(-0.2, 10.2)
   plt.ylim(mn - 0.1, mx + 0.1)
-  plt.xticks(np.arange(0, 10.5, step=0.5)) 
+  plt.xticks(np.arange(0, 10.04, step=0.04), labels=[]) 
+  plt.yticks(np.arange(mn, mx, step=0.1), labels=[]) 
 
-  fig.set_size_inches(10, 2)
-  plt.title("lead " + leads[lead_idx])
-  plt.xlabel("Time (sec)")
-  plt.ylabel("Voltage (mV)")
+  fig.set_size_inches(35, 2)
+  plt.title("Lead " + leads[lead_idx],fontdict = {'fontsize' : 25})
+  #plt.xlabel("Time (sec)")
+  #plt.ylabel("Voltage (mV)")
   path = 'static/data/plots/'+str(ind)+'/'+leads[lead_idx]+ '.png'
   plt.savefig(path, bbox_inches='tight', dpi=600)
   plt.close(fig)
+  plt.figure().clear()
+  plt.close('all')
+  plt.cla()
+  plt.clf()
+  
+  gc.collect()
 
 
   return path
