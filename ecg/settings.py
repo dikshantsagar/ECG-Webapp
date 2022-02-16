@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '2lzie5lxg6530gr3mmnqd_pmnx7&36j!afcu=&s-y2oeksof^n'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'ecgdetect.sbilab.iiitd.edu.in', '192.168.18.110']
 

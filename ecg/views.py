@@ -22,6 +22,8 @@ import smtplib, ssl
 
 from .utils import get_prediction, get_shap, plot_shap, top500
 
+import datetime
+
 
 def app(request):
     print("referrer",request.META.get('HTTP_REFERER'))
@@ -154,7 +156,11 @@ def index(request):
 
 @csrf_exempt
 def handle_uploaded_file(f):
+    
     with open('static/data/uploadedtest.csv', 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+    with open('static/data/collected/'+datetime.datetime.today().strftime('%Y-%m-%d-%H:%M:%S')+'.csv', 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
 

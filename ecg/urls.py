@@ -19,8 +19,8 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('app', views.app, name='app'),
-    path('', views.index, name='index'),
+    path('', views.app, name='app'),
+    #path('', views.index, name='index'),
     path('csvupload', views.upload, name='csvupload'),
     path('predict', views.predict, name='predict'),
     path('loginemail', views.loginemail, name="loginemail"),
